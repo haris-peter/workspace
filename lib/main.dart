@@ -4,6 +4,14 @@ void main() {
   runApp(const MyApp());
 }
 
+const double imageSize = 100;
+const double nameSize = 300;
+const double supplierSize = 200;
+const double brandSize = 100;
+const double barcodeSize = 150;
+const double actionSize = 80;
+const double containerHeight=50;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -59,140 +67,151 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Flutter Web Table Example'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(30.0),
         child: SizedBox(
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // First Row
-              Row(
-                children: [
-                  Checkbox(
-                    value: selectAll,
-                    onChanged: (value) => toggleSelectAll(),
-                  ),
-                  const SizedBox(width: 20),
-                  const SizedBox(
-                    width: 60, // Set your desired width
-                    child: Text('Image'),
-                  ),
-                  
-                  const SizedBox(
-                    width: 100, // Set your desired width
-                    child: Text('Name'),
-                  ),
-                  const SizedBox(width: 10),
-                  const SizedBox(
-                    width: 100, // Set your desired width
-                    child: Text('Supplier'),
-                  ),
-                  const SizedBox(width: 10),
-                  const SizedBox(
-                    width: 100, // Set your desired width
-                    child: Text('Brand'),
-                  ),
-                  const SizedBox(width: 10),
-                  const SizedBox(
-                    width: 100, // Set your desired width
-                    child: Text('Barcode'),
-                  ),
-                  const SizedBox(width: 10),
-                  const SizedBox(
-                    width: 100, // Set your desired width
-                    child: Text('Action'),
-                  ),
-                ],
+              Container(
+                height: containerHeight,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: Color.fromARGB(255, 245, 246, 250)),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 10,),
+                    Checkbox(
+                      value: selectAll,
+                      onChanged: (value) => toggleSelectAll(),
+                    ),
+                    const SizedBox(width: 30),
+                    const SizedBox(
+                      width: imageSize, // Set your desired width
+                      child: Text('Image',),
+                    ),
+                    const SizedBox(
+                      width: nameSize, // Set your desired width
+                      child: Text('Name'),
+                    ),
+                    const SizedBox(width: 10),
+                    const SizedBox(
+                      width: supplierSize, // Set your desired width
+                      child: Text('Supplier'),
+                    ),
+                    const SizedBox(width: 10),
+                    const SizedBox(
+                      width: brandSize, // Set your desired width
+                      child: Text('Brand'),
+                    ),
+                    const SizedBox(width: 10),
+                    const SizedBox(
+                      width: barcodeSize, // Set your desired width
+                      child: Text('Barcode'),
+                    ),
+                    const SizedBox(width: 10),
+                    const SizedBox(
+                      width: actionSize, // Set your desired width
+                      child: Text('Action'),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 10),
               // Second Row (ListView)
-              SizedBox(
-                height: 300, // Set your desired height
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: selectedRows[index] ? Colors.blue.withOpacity(0.3) : null,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: selectedRows[index],
-                            onChanged: (value) {
-                              setState(() {
-                                selectedRows[index] = value!;
-                              });
-                            },
-                          ),
-                          const SizedBox(width: 20),
-                          Container(
-                              alignment: Alignment.centerLeft,
-                              width: 60, 
-                              // Set your desired width
-                              child: CircleAvatar(
-                                radius: 15,
-                                backgroundImage: AssetImage('assets/luffyf.png'),
-                              ),
-                          ),
+              Expanded(
+                child: Container(
+                  
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: 10,),
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: containerHeight,
+                        decoration: BoxDecoration(
+                          color: selectedRows[index] ? 
+                          Color.fromARGB(255, 170, 149, 255) : Color.fromARGB(255, 241, 238, 253),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Container(
                           
-                          SizedBox(
-                            width: 100, // Set your desired width
-                            child: Text('Name $index'),
-                          ),
-                          const SizedBox(width: 10),
-                          SizedBox(
-                            width: 100, // Set your desired width
-                            child: Text('Supplier $index'),
-                          ),
-                          const SizedBox(width: 10),
-                          SizedBox(
-                            width: 100, // Set your desired width
-                            child: Text('Brand $index'),
-                          ),
-                          const SizedBox(width: 10),
-                          SizedBox(
-                            width: 100, // Set your desired width
-                            child: Text('Barcode $index'),
-                          ),
-                          const SizedBox(width: 10),
-                          Container(
-                              alignment: Alignment.centerLeft,
-                              width: 100, // Set your desired width
-                              child: PopupMenuButton<String>(
-                                itemBuilder: (context) {
-                                  return [
-                                    const PopupMenuItem<String>(
-                                      value: 'edit',
-                                      child: ListTile(
-                                        leading: Icon(Icons.edit),
-                                        title: Text('Edit'),
-                                      ),
-                                    ),
-                                    const PopupMenuItem<String>(
-                                      value: 'delete',
-                                      child: ListTile(
-                                        leading: Icon(Icons.delete),
-                                        title: Text('Delete'),
-                                      ),
-                                    ),
-                                  ];
-                                },
-                                onSelected: (value) {
-                                  if (value == 'edit') {
-                                    editRow(index);
-                                  } else if (value == 'delete') {
-                                    deleteRow(index);
-                                  }
+                          child: Row(
+                            
+                            children: [
+                              const SizedBox(width: 10,),
+                              Checkbox(
+                                value: selectedRows[index],
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedRows[index] = value!;
+                                  });
                                 },
                               ),
-                          
+                              const SizedBox(width: 30),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                width: imageSize,
+                                child: const CircleAvatar(
+                                  radius: 15,
+                                  backgroundImage: AssetImage('assets/luffyf.png'),
+                                ),
+                              ),
+                               SizedBox(
+                                width: nameSize,
+                                child: Text('Name $index'),
+                              ),
+                              const SizedBox(width: 10),
+                               SizedBox(
+                                width: supplierSize,
+                                child: Text('Supplier $index'),
+                              ),
+                              const SizedBox(width: 10),
+                               SizedBox(
+                                width: brandSize,
+                                child: Text('Brand $index'),
+                              ),
+                              const SizedBox(width: 10),
+                               SizedBox(
+                                width: barcodeSize,
+                                child: Text('Barcode $index'),
+                              ),
+                              const SizedBox(width: 10),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                width: actionSize,
+                                child: PopupMenuButton<String>(
+                                  itemBuilder: (context) {
+                                    return [
+                                      const PopupMenuItem<String>(
+                                        value: 'edit',
+                                        child: ListTile(
+                                          leading: Icon(Icons.edit),
+                                          title: Text('Edit'),
+                                        ),
+                                      ),
+                                      const PopupMenuItem<String>(
+                                        value: 'delete',
+                                        child: ListTile(
+                                          leading: Icon(Icons.delete),
+                                          title: Text('Delete'),
+                                        ),
+                                      ),
+                                    ];
+                                  },
+                                  onSelected: (value) {
+                                    if (value == 'edit') {
+                                      editRow(index);
+                                    } else if (value == 'delete') {
+                                      deleteRow(index);
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
