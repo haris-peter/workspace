@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'header_row.dart';
-import 'data_row.dart'; // Import the MyDataRow class
+import 'package:trial/data_table_cell.dart';
+import 'package:trial/header_cell.dart';
+
 
 void main() {
   runApp(const MyApp());
 }
 
-const double containerHeight = 50;
-
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Web Table Example',
+      title: 'Flutter DataTable Example',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -23,63 +22,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key});
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<bool> selectedRows = List.generate(10, (index) => false);
-  bool selectAll = false;
-
-  void toggleSelectAll(bool? value) {
-    setState(() {
-      selectAll = value ?? false;
-      selectedRows = List.generate(selectedRows.length, (index) => selectAll);
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Web Table Example'),
+        title: const Text('Flutter DataTable Example'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HeaderRow(
-                selectAll: selectAll,
-                toggleSelectAll: toggleSelectAll,
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: Container(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => const SizedBox(height: 10),
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return MyDataRow(
-                        selected: selectedRows[index],
-                        onChanged: (value) {
-                          setState(() {
-                            selectedRows[index] = value ?? false;
-                          });
-                        },
-                        index: index,
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
+        child: DataTableRow(
+          headers: const [
+            HeaderCell(title: 'Image', width: 100),
+            HeaderCell(title: 'Name', width: 300),
+            HeaderCell(title: 'Supplier', width: 250),
+            HeaderCell(title: 'Brand', width: 200),
+            HeaderCell(title: 'Barcode', width: 200),
+          ],
+          dataRows: const [
+            ['Name 1', 'Supplier 1', 'Brand 1', 'Barcode 1'],//model class
+            ['Name 2', 'Supplier 2', 'Brand 2', 'Barcode 2'],
+            // Add more data rows as needed
+          ],
+          selectedRows: List.generate(2, (index) => false),
+          selectAll: false,
+          checkbox:true,
+          actionbutton: true,
+          toggleSelectAll: (value) {},
+          onEdit: (index) => print('Edit clicked for row $index'),
+          onDelete: (index) => print('Delete clicked for row $index'),
         ),
       ),
     );
