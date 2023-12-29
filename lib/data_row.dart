@@ -17,7 +17,7 @@ class MyDataRow extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        color: selected ? Color.fromARGB(255, 170, 149, 255) : Color.fromARGB(255, 241, 238, 253),
+        color: selected ? const Color.fromARGB(255, 170, 149, 255) : const Color.fromARGB(255, 241, 238, 253),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Row(

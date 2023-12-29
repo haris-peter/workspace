@@ -12,7 +12,7 @@ class HeaderRow extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(255, 245, 246, 250),
+        color: const Color.fromARGB(255, 245, 246, 250),
       ),
       child: Row(
         children: [

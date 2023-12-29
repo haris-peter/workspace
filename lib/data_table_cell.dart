@@ -38,6 +38,16 @@ class DataTableRow extends StatefulWidget {
 class _DataTableRowState extends State<DataTableRow> {
   List<bool> selectedRows = List.generate(10, (index) => false);
   bool selectAll = false;
+  
+void toggleSelectAll() {
+  setState(() {
+      selectAll = !selectAll;
+      for (int i = 0; i < selectedRows.length; i++) {
+        selectedRows[i] = selectAll;
+      }
+    });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,20 +64,8 @@ class _DataTableRowState extends State<DataTableRow> {
             children: [
               const SizedBoxCell(width: 10),
               if (widget.checkbox) ...[
-                CheckboxCell(
-                  selected: widget.selectAll,
-                  onSelect: widget.toggleSelectAll,
-                  selectall: true,
-                  index: 0,
-                  onCheckboxChanged: (value) {
-                    setState(() {
-                      selectAll = value;
-                      for (int i = 0; i < selectedRows.length; i++) {
-                        selectedRows[i] = value;
-                      }
-                    });
-                  },
-                ),
+                Checkbox(value: selectAll,
+                 onChanged: (value){toggleSelectAll();}),
                 const SizedBoxCell(width: 60),
               ], // Placeholder for the image column
               ...widget.headers
@@ -95,7 +93,7 @@ class _DataTableRowState extends State<DataTableRow> {
                 return Container(
                   height: containerHeight,
                   decoration: BoxDecoration(
-                    color: selected
+                    color: selectedRows[rowIndex]
                         ? const Color.fromARGB(255, 170, 149, 255)
                         : const Color.fromARGB(255, 241, 238, 253),
                     borderRadius: BorderRadius.circular(15),
@@ -104,17 +102,12 @@ class _DataTableRowState extends State<DataTableRow> {
                     children: [
                       const SizedBoxCell(width: 10),
                       if (widget.checkbox) ...[
-                        CheckboxCell(
-                          selected: selected,
-                          onSelect: (value) {
-                            setState(() {
-                              selectedRows[rowIndex] = value;
-                            });
-                          },
-                          selectall: false,
-                          index: rowIndex,
-                          onCheckboxChanged: (value) {},
-                        ),
+                        Checkbox(value: selectedRows[rowIndex], 
+                        onChanged: ((value) {
+                          setState(() {
+                            selectedRows[rowIndex]=value!;
+                          });
+                        })),
                         const SizedBoxCell(width: 60),
                       ], // Placeholder for the image column
                       ...rowData.asMap().entries.map((entry) {
@@ -124,7 +117,8 @@ class _DataTableRowState extends State<DataTableRow> {
                             widget.headers[cellIndex].width;
 
 
-                        return DataRowCell(data: cellData, width: cellWidth);
+                        return DataRowCell(data: cellData,
+                         width: cellWidth);
                       }).toList(),
                       if (widget.actionbutton) ...[
                         const SizedBoxCell(
