@@ -37,6 +37,7 @@ class DataTableRow extends StatefulWidget {
 
 class _DataTableRowState extends State<DataTableRow> {
   List<bool> selectedRows = List.generate(10, (index) => false);
+  bool selectAll = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,12 @@ class _DataTableRowState extends State<DataTableRow> {
                   selectall: true,
                   index: 0,
                   onCheckboxChanged: (value) {
-                    selected: true;
+                    setState(() {
+                      selectAll = value;
+                      for (int i = 0; i < selectedRows.length; i++) {
+                        selectedRows[i] = value;
+                      }
+                    });
                   },
                 ),
                 const SizedBoxCell(width: 30),
@@ -100,7 +106,11 @@ class _DataTableRowState extends State<DataTableRow> {
                       if (widget.checkbox) ...[
                         CheckboxCell(
                           selected: selected,
-                          onSelect: (value) {},
+                          onSelect: (value) {
+                            setState(() {
+                              selectedRows[rowIndex] = value;
+                            });
+                          },
                           selectall: false,
                           index: rowIndex,
                           onCheckboxChanged: (value) {},
