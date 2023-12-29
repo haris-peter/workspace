@@ -9,7 +9,7 @@ const double containerHeight = 50;
 
 class DataTableRow extends StatefulWidget {
   final List<HeaderCell> headers;
-  final List<List<String>> dataRows;
+  final List<List<dynamic>> dataRows;
   final List<bool> selectedRows;
   final bool selectAll;
   final bool checkbox;
@@ -68,7 +68,7 @@ class _DataTableRowState extends State<DataTableRow> {
                     });
                   },
                 ),
-                const SizedBoxCell(width: 30),
+                const SizedBoxCell(width: 60),
               ], // Placeholder for the image column
               ...widget.headers
                   .map((header) =>
@@ -90,7 +90,7 @@ class _DataTableRowState extends State<DataTableRow> {
               ),
               itemCount: widget.dataRows.length,
               itemBuilder: (context, rowIndex) {
-                final List<String> rowData = widget.dataRows[rowIndex];
+                final List<dynamic> rowData = widget.dataRows[rowIndex];
                 final bool selected = selectedRows[rowIndex];
                 return Container(
                   height: containerHeight,
@@ -115,12 +115,15 @@ class _DataTableRowState extends State<DataTableRow> {
                           index: rowIndex,
                           onCheckboxChanged: (value) {},
                         ),
-                        const SizedBoxCell(width: 30),
+                        const SizedBoxCell(width: 60),
                       ], // Placeholder for the image column
                       ...rowData.asMap().entries.map((entry) {
                         final int cellIndex = entry.key;
-                        final String cellData = entry.value;
-                        final double cellWidth = widget.headers[cellIndex].width;
+                        final dynamic cellData = entry.value;
+                        final double cellWidth =
+                            widget.headers[cellIndex].width;
+
+
                         return DataRowCell(data: cellData, width: cellWidth);
                       }).toList(),
                       if (widget.actionbutton) ...[

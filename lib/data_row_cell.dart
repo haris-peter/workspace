@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DataRowCell extends StatelessWidget {
-  final String data;
+  final dynamic data;
   final double width;
-
 
   const DataRowCell({
     Key? key,
@@ -15,7 +14,21 @@ class DataRowCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: Text(data),
+      child: data is String && data.endsWith('.png')
+          ? Row(
+        children: [
+          const SizedBox(
+            width: 4,
+          ),
+          CircleAvatar(
+            radius: 15,
+            backgroundImage: AssetImage(data),
+          ),
+        ],
+      )
+          : data is Widget
+          ? data
+          : Text(data.toString()),
     );
   }
 }
