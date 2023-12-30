@@ -36,21 +36,11 @@ class DataTableRow extends StatefulWidget {
 }
 
 class _DataTableRowState extends State<DataTableRow> {
-  List<bool> selectedRows = List.generate(10, (index) => false);
-  bool selectAll = false;
-  
-void toggleSelectAll() {
-  setState(() {
-      selectAll = !selectAll;
-      for (int i = 0; i < selectedRows.length; i++) {
-        selectedRows[i] = selectAll;
-      }
-    });
-}
-
-
   @override
   Widget build(BuildContext context) {
+    bool selectAll = widget.selectAll;
+    bool selection = false;
+    List<bool> selectedRows = widget.selectedRows;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,14 +54,21 @@ void toggleSelectAll() {
             children: [
               const SizedBoxCell(width: 10),
               if (widget.checkbox) ...[
-                Checkbox(value: selectAll,
-                 onChanged: (value){toggleSelectAll();}),
+                Checkbox(
+                    value: selection,
+                    onChanged: (value) {
+                      DataTableFunctions.toggleSelectAll(
+                        selectedRows: selectedRows,
+                        selectAll: selectAll,
+                        onSelectAll: (p0, p1) {
+                          selectedRows = p1;
+                          selection = p0;
+                        },
+                      );
+                    }),
                 const SizedBoxCell(width: 60),
               ], // Placeholder for the image column
-              ...widget.headers
-                  .map((header) =>
-                  HeaderCell(title: header.title, width: header.width))
-                  .toList(),
+              ...widget.headers.map((header) => HeaderCell(title: header.title, width: header.width)).toList(),
               if (widget.actionbutton) ...[
                 const SizedBoxCell(width: 10),
                 ActionButtonCell(onEdit: () {}, onDelete: () {}),
@@ -102,27 +99,24 @@ void toggleSelectAll() {
                     children: [
                       const SizedBoxCell(width: 10),
                       if (widget.checkbox) ...[
-                        Checkbox(value: selectedRows[rowIndex], 
-                        onChanged: ((value) {
-                          setState(() {
-                            selectedRows[rowIndex]=value!;
-                          });
-                        })),
+                        Checkbox(
+                            value: selectedRows[rowIndex],
+                            onChanged: ((value) {
+                              setState(() {
+                                selectedRows[rowIndex] = value!;
+                              });
+                            })),
                         const SizedBoxCell(width: 60),
                       ], // Placeholder for the image column
                       ...rowData.asMap().entries.map((entry) {
                         final int cellIndex = entry.key;
                         final dynamic cellData = entry.value;
-                        final double cellWidth =
-                            widget.headers[cellIndex].width;
+                        final double cellWidth = widget.headers[cellIndex].width;
 
-
-                        return DataRowCell(data: cellData,
-                         width: cellWidth);
+                        return DataRowCell(data: cellData, width: cellWidth);
                       }).toList(),
                       if (widget.actionbutton) ...[
-                        const SizedBoxCell(
-                            width: 10), // Placeholder for the action column
+                        const SizedBoxCell(width: 10), // Placeholder for the action column
                         ActionButtonCell(onEdit: () {}, onDelete: () {}),
                       ],
                     ],

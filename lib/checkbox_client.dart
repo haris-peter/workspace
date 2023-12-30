@@ -4,13 +4,13 @@ class DataTableFunctions {
   static void toggleSelectAll({
     required List<bool> selectedRows,
     required bool selectAll,
-    required Function(bool) onSelectAll,
+    required Function(bool,List<bool>) onSelectAll,
   }) {
     selectAll = !selectAll;
     for (int i = 0; i < selectedRows.length; i++) {
       selectedRows[i] = selectAll;
     }
-    onSelectAll(selectAll);
+    onSelectAll(selectAll,selectedRows);
   }
 
   static void deleteRow({
