@@ -2,16 +2,16 @@
 import 'package:flutter/foundation.dart';
 
 class Notifier extends ChangeNotifier {
-  int _count=0;
-  int get count => _count;
+  int count=0;
+  int get ncount => count;
 
   void increment(){
-    _count++;
+    count++;
     notifyListeners();
   }
 
   void delete(){
-    _count = 0;
+    count = 0;
     notifyListeners();
   }
 }

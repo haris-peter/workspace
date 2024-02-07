@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workspace/data_table_row.dart';
-import 'package:workspace/model.dart';
+import 'package:workspace/second_screen.dart';
+import 'package:workspace/third_screen.dart';
 import 'package:workspace/notifier.dart';
 
 void main() => runApp(
@@ -35,17 +35,18 @@ class _HomePageState extends State<HomePage> {
     return Consumer<Notifier>(
       builder: (context, value, child) {
         return SafeArea(
-          child: Center(
             child: Container(
               color: Colors.blueAccent,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "When you press the button, the value increments",
-                    style: TextStyle(fontSize: 28, color: Colors.white),
+                  const Center(
+                    child:  Text(
+                      "When you press the button, the value increments",
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     value.count.toString(),
                     style: TextStyle(fontSize: 24, color: Colors.white),
@@ -82,7 +83,6 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-          ),
         );
       },
     );
